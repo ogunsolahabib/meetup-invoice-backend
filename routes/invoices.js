@@ -1,11 +1,11 @@
 const { Router } = require('express');
-const pool = require('../db');
+const client = require('../db');
 const getPutFields = require('../utils/getPutFields');
 
 const router = Router();
 
 router.get('/', (request, response) => {
-    pool.query('SELECT * FROM invoices', (err, res) => {
+    client.query('SELECT * FROM invoices', (err, res) => {
         if (err) return response.send(err);
         response.send(res.rows);
     });
@@ -14,7 +14,7 @@ router.get('/', (request, response) => {
 router.post('/', (request, response) => {
     const { sponsor_id, total_amount } = request.body;
 
-    pool.query('INSERT INTO invoices(sponsor_id, invoice_date, total_amount) VALUES ($1, current_timestamp, $2)',
+    client.query('INSERT INTO invoices(sponsor_id, invoice_date, total_amount) VALUES ($1, current_timestamp, $2)',
         [sponsor_id, total_amount],
         (err, res) => {
             if (err) return response.send(err);
@@ -28,7 +28,7 @@ router.put('/:id', (request, response) => {
     const { setClause, fields, values } = getPutFields(request.body);
 
     try {
-        pool.query(`UPDATE invoices SET ${setClause} WHERE invoice_id = $${fields.length + 1}`, [...values, +id], (err, res) => {
+        client.query(`UPDATE invoices SET ${setClause} WHERE invoice_id = $${fields.length + 1}`, [...values, +id], (err, res) => {
             if (err) return response.send(err);
 
             if (res) {
