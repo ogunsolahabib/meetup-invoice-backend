@@ -25,10 +25,10 @@ router.post('/', (request, response) => {
 router.put('/:id', (request, response) => {
     const { id } = request.params;
 
-    const { setClause, values } = getPutFields(request.body);
+    const { setClause, fields, values } = getPutFields(request.body);
 
     try {
-        pool.query(`UPDATE invoices SET ${setClause} WHERE invoice_id = $2`, [...values, +id], (err, res) => {
+        pool.query(`UPDATE invoices SET ${setClause} WHERE invoice_id = $${fields.length + 1}`, [...values, +id], (err, res) => {
             if (err) return response.send(err);
 
             if (res) {

@@ -8,7 +8,7 @@ const getPutFields = (body) => {
 
     const values = Object.values(body);
 
-    return { setClause, values }
+    return { fields, setClause, values }
 }
 
 module.exports = getPutFields;
