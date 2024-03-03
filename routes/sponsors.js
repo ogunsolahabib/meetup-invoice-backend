@@ -18,7 +18,6 @@ router.get('/', (request, response) => {
 router.post('/', (request, response) => {
     const { name, street, city, phone } = request.body;
     try {
-
         client.query('INSERT INTO sponsors(name, street, city, phone) VALUES ($1, $2, $3, $4)',
             [name, street, city, phone],
             (err, data) => {
@@ -34,8 +33,6 @@ router.put('/:id', (request, response) => {
     const { id } = request.params;
 
     const { setClause, fields, values } = getPutFields(request.body);
-
-    console.log(`UPDATE sponsors SET ${setClause} WHERE sponsor_id = ${fields.length + 1}`, [...values, +id])
 
     try {
         client.query(`UPDATE sponsors SET ${setClause} WHERE sponsor_id = $${fields.length + 1}`, [...values, +id], (err, data) => {
@@ -58,6 +55,21 @@ router.delete('/:id', (request, response) => {
         })
     } catch (err) {
         response.send(err);
+    }
+});
+
+router.post('/activate', (request, response) => {
+    const { id, is_active } = request.body;
+    try {
+        client.query(`UPDATE sponsors SET is_active=$1 WHERE sponsor_id=$2`, [is_active, +id], (err, data) => {
+            if (err) return response.send(err);
+            if (data) {
+                response.send(data.rows)
+            }
+        });
+
+    } catch (err) {
+        response.send(err)
     }
 });
 

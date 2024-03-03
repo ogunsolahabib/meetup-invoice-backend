@@ -3,7 +3,8 @@ CREATE TABLE sponsors (
     street VARCHAR(255) NOT NULL,
     city VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
-    name VARCHAR(255) NOT NULL
+    name VARCHAR(255) NOT NULL,
+    is_active BOOLEAN DEFAULT true NOT NULL
 );
 
 CREATE TABLE contact_persons (
