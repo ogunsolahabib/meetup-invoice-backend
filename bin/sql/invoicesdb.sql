@@ -7,8 +7,8 @@ CREATE TABLE sponsors (
     is_active BOOLEAN DEFAULT true NOT NULL
 );
 
-CREATE TABLE contact_persons (
-    person_id SERIAL PRIMARY KEY,
+CREATE TABLE contacts (
+    contact_id SERIAL PRIMARY KEY,
     sponsor_id INT REFERENCES sponsors(sponsor_id),
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255),
@@ -26,7 +26,7 @@ CREATE TABLE invoices (
 
 INSERT INTO sponsors (name, street, city, phone) VALUES ('Sponsor A', '7 Etive AvenueBearsden', 'Glasgow', '111-222-3333');
 
-INSERT INTO contact_persons (sponsor_id, name, email, phone) VALUES (1, 'John Doe', 'john@example.com', '111-222-3333');
+INSERT INTO contacts (sponsor_id, name, email, phone) VALUES (1, 'John Doe', 'john@example.com', '111-222-3333');
 
 INSERT INTO invoices (sponsor_id, invoice_date, total_amount) VALUES (1, '2024-02-16', 79.98);
 
