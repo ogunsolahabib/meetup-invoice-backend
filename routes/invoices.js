@@ -5,9 +5,18 @@ const getPutFields = require('../utils/getPutFields');
 const router = Router();
 
 router.get('/', (request, response) => {
-    client.query('SELECT * FROM invoices', (err, res) => {
+    client.query('SELECT * FROM invoices JOIN sponsors ON invoices.sponsor_id = sponsors.sponsor_id', (err, res) => {
+        const data = res.rows.map(row => {
+            return {
+                ...row,
+                sponsor: {
+                    sponsor_id: row.sponsor_id,
+                    name: row.name
+                }
+            }
+        })
         if (err) return response.send(err);
-        response.send(res.rows);
+        response.send(data);
     });
 });
 
