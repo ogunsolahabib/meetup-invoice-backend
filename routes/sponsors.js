@@ -18,11 +18,11 @@ router.get('/', (request, response) => {
 router.post('/', (request, response) => {
     const { name, street, city } = request.body;
     try {
-        client.query('INSERT INTO sponsors(name, street, city, date_created) VALUES ($1, $2, $3, $4, current_timestamp)',
+        client.query('INSERT INTO sponsors(name, street, city, date_created) VALUES ($1, $2, $3, $4, current_timestamp) RETURNING *',
             [name, street, city],
             (err, data) => {
                 if (err) return response.send(err);
-                response.send('success');
+                response.send(data.rows);
             });
     } catch (err) {
         response.send(err);

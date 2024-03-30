@@ -3,7 +3,7 @@ CREATE TABLE sponsors (
     street VARCHAR(255) NOT NULL,
     city VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
-    is_active BOOLEAN DEFAULT true NOT NULL
+    is_active BOOLEAN DEFAULT true NOT NULL,
     date_created DATE NOT NULL
 );
 
@@ -24,7 +24,7 @@ CREATE TABLE invoices (
     total_amount DECIMAL(10, 2) NOT NULL
 );
 
-INSERT INTO sponsors (name, street, city, phone) VALUES ('Sponsor A', '7 Etive AvenueBearsden', 'Glasgow', '111-222-3333');
+INSERT INTO sponsors (name, street, city, date_created) VALUES ('Sponsor A', '7 Etive AvenueBearsden', 'Glasgow', '2024-02-16');
 
 INSERT INTO contacts (sponsor_id, name, email, phone) VALUES (1, 'John Doe', 'john@example.com', '111-222-3333');
 
