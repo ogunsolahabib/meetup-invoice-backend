@@ -15,6 +15,18 @@ router.get('/', (request, response) => {
     }
 });
 
+router.get('/:id', (request, response) => {
+    const { id } = request.params;
+    try {
+        client.query('SELECT * FROM sponsors WHERE sponsor_id = $1', [id], (err, data) => {
+            if (err) return response.send(err);
+            response.send(data.rows);
+        });
+    } catch (err) {
+        response.send(err);
+    }
+})
+
 router.post('/', (request, response) => {
     const { name, street, city } = request.body;
     try {
