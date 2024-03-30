@@ -2,9 +2,9 @@ CREATE TABLE sponsors (
     sponsor_id SERIAL PRIMARY KEY,
     street VARCHAR(255) NOT NULL,
     city VARCHAR(255) NOT NULL,
-    phone VARCHAR(20),
     name VARCHAR(255) NOT NULL,
     is_active BOOLEAN DEFAULT true NOT NULL
+    date_created DATE NOT NULL
 );
 
 CREATE TABLE contacts (

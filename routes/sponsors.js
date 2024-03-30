@@ -16,10 +16,10 @@ router.get('/', (request, response) => {
 });
 
 router.post('/', (request, response) => {
-    const { name, street, city, phone } = request.body;
+    const { name, street, city } = request.body;
     try {
-        client.query('INSERT INTO sponsors(name, street, city, phone) VALUES ($1, $2, $3, $4)',
-            [name, street, city, phone],
+        client.query('INSERT INTO sponsors(name, street, city, date_created) VALUES ($1, $2, $3, $4, current_timestamp)',
+            [name, street, city],
             (err, data) => {
                 if (err) return response.send(err);
                 response.send('success');
@@ -71,6 +71,22 @@ router.post('/activate', (request, response) => {
     } catch (err) {
         response.send(err)
     }
+});
+
+router.post('/add-contact', (request, response) => {
+    const { sponsor_id, name, email, phone, is_primary } = request.body;
+
+    try {
+        client.query('INSERT INTO sponsor_contacts(sponsor_id, name, email, phone, is_primary) VALUES ($1, $2, $3, $4, $5, $6)',
+            [sponsor_id, contact_id, name, email, phone, is_primary],
+            (err, data) => {
+                if (err) return response.send(err);
+                response.send('success');
+            });
+    } catch (err) {
+        response.send(err);
+    }
+
 });
 
 module.exports = router;
