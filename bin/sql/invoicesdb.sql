@@ -28,5 +28,7 @@ INSERT INTO sponsors (name, street, city, date_created) VALUES ('Sponsor A', '7 
 
 INSERT INTO contacts (sponsor_id, name, email, phone) VALUES (1, 'John Doe', 'john@example.com', '111-222-3333');
 
+INSERT INTO contacts (sponsor_id, name, email, phone) VALUES (1, 'Mary James', 'mary@example.com', '111-222-3344');
+
 INSERT INTO invoices (sponsor_id, invoice_date, total_amount) VALUES (1, '2024-02-16', 79.98);
 

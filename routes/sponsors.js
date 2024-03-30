@@ -18,10 +18,18 @@ router.get('/', (request, response) => {
 router.get('/:id', (request, response) => {
     const { id } = request.params;
     try {
-        client.query('SELECT * FROM sponsors WHERE sponsor_id = $1', [id], (err, data) => {
+        client.query('SELECT * FROM sponsors LEFT JOIN contacts ON sponsors.sponsor_id = contacts.sponsor_id WHERE sponsors.sponsor_id = $1', [id], (err, data) => {
             if (err) return response.send(err);
-            response.send(data.rows);
-        });
+            const res = {
+                id: data.rows[0].sponsor_id,
+                name: data.rows[0].name,
+                street: data.rows[0].street,
+                city: data.rows[0].city,
+                contacts: data.rows
+            }
+            response.send(res);
+        })
+
     } catch (err) {
         response.send(err);
     }
@@ -89,7 +97,7 @@ router.post('/add-contact', (request, response) => {
     const { sponsor_id, name, email, phone, is_primary } = request.body;
 
     try {
-        client.query('INSERT INTO sponsor_contacts(sponsor_id, name, email, phone, is_primary) VALUES ($1, $2, $3, $4, $5, $6)',
+        client.query('INSERT INTO contacts(sponsor_id, name, email, phone, is_primary) VALUES ($1, $2, $3, $4, $5, $6)',
             [sponsor_id, contact_id, name, email, phone, is_primary],
             (err, data) => {
                 if (err) return response.send(err);
