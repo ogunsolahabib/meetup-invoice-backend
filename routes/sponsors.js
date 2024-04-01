@@ -18,40 +18,49 @@ router.get('/', (request, response) => {
 router.get('/:id', (request, response) => {
     const { id } = request.params;
     try {
-        client.query('SELECT s.*, c.name AS contact_name, c.email, c.phone  FROM sponsors s LEFT JOIN contacts c ON s.sponsor_id = c.sponsor_id WHERE s.sponsor_id = $1', [id], (err, data) => {
-            if (err) return response.send(err);
+        client.query(
 
-            if (data.rows.length === 0) return response.status(404).send({});
-            const res = {
-                sponsor_id: data.rows[0].sponsor_id,
-                name: data.rows[0].name,
-                street: data.rows[0].street,
-                city: data.rows[0].city,
-                contacts: data.rows.map(row => {
-                    return {
-                        name: row.contact_name,
-                        email: row.email,
-                        phone: row.phone,
-                        is_primary: row.is_primary
-                    }
-                })
-            }
-            response.send(res);
-        })
+            `SELECT a.*,
+            b.contact_id, b.email, b.phone, b.is_primary_contact
+            from sponsors a
+            LEFT JOIN contacts b ON a.sponsor_id = b.sponsor_id
+            where a.sponsor_id = $1`
+            ,
+            [id], (err, data) => {
+                console.log({ err }, data?.rows);
+                if (err) return response.status(500).send(err);
+
+
+                const res = data.rowCount === 0 ? {} : {
+                    sponsor_id: data.rows[0].sponsor_id,
+                    name: data.rows[0].name,
+                    street: data.rows[0].street,
+                    city: data.rows[0].city,
+                    contacts: data.rows[0]?.contact_id ? data.rows.map(row => {
+                        return {
+                            name: row.contact_name,
+                            email: row.email,
+                            phone: row.phone,
+                            is_primary: row.is_primary
+                        }
+                    }) : []
+                }
+                response.send(res);
+            })
 
     } catch (err) {
-        response.send(err);
+        response.status(500).send(err);
     }
 })
 
 router.post('/', (request, response) => {
     const { name, street, city } = request.body;
     try {
-        client.query('INSERT INTO sponsors(name, street, city, date_created) VALUES ($1, $2, $3, $4, current_timestamp) RETURNING *',
+        client.query('INSERT INTO sponsors(name, street, city, date_created) VALUES ($1, $2, $3, current_timestamp) RETURNING *',
             [name, street, city],
             (err, data) => {
-                if (err) return response.send(err);
-                response.send(data.rows);
+                if (err) return response.status(500).send(err);
+                response.send(data.rows[0]);
             });
     } catch (err) {
         response.send(err);
