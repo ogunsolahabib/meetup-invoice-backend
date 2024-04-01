@@ -13,7 +13,7 @@ CREATE TABLE contacts (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255),
     phone VARCHAR(20),
-    is_primary_contact BOOLEAN DEFAULT false
+    is_primary BOOLEAN DEFAULT false
 );
 
 CREATE TABLE invoices (

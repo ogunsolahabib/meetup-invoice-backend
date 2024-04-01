@@ -21,13 +21,12 @@ router.get('/:id', (request, response) => {
         client.query(
 
             `SELECT a.*,
-            b.contact_id, b.email, b.phone, b.is_primary_contact
+            b.contact_id, b.email, b.phone, b.is_primary
             from sponsors a
             LEFT JOIN contacts b ON a.sponsor_id = b.sponsor_id
             where a.sponsor_id = $1`
             ,
             [id], (err, data) => {
-                console.log({ err }, data?.rows);
                 if (err) return response.status(500).send(err);
 
 
