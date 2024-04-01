@@ -15,13 +15,55 @@ router.get('/', (request, response) => {
     }
 });
 
+router.post('/', (request, response) => {
+    const { name, street, city } = request.body;
+    try {
+        client.query('INSERT INTO sponsors(name, street, city, date_created) VALUES ($1, $2, $3, current_timestamp) RETURNING *',
+            [name, street, city],
+            (err, data) => {
+                if (err) return response.status(500).send(err);
+                response.send(data.rows[0]);
+            });
+    } catch (err) {
+        response.send(err);
+    }
+});
+
+router.get('/contacts', (request, response) => {
+    try {
+        client.query('SELECT * FROM contacts', (err, data) => {
+            if (err) return response.send(err);
+            response.send(data.rows);
+        });
+    } catch (err) {
+        response.send(err);
+    }
+
+});
+
+
+router.post('/activate', (request, response) => {
+    const { id, is_active } = request.body;
+    try {
+        client.query(`UPDATE sponsors SET is_active=$1 WHERE sponsor_id=$2`, [is_active, +id], (err, data) => {
+            if (err) return response.send(err);
+            if (data) {
+                response.send(data.rows)
+            }
+        });
+
+    } catch (err) {
+        response.send(err)
+    }
+});
+
 router.get('/:id', (request, response) => {
     const { id } = request.params;
     try {
         client.query(
 
             `SELECT a.*,
-            b.contact_id, b.email, b.phone, b.is_primary
+            b.contact_id, b.name as contact_name, b.email, b.phone, b.is_primary
             from sponsors a
             LEFT JOIN contacts b ON a.sponsor_id = b.sponsor_id
             where a.sponsor_id = $1`
@@ -52,19 +94,6 @@ router.get('/:id', (request, response) => {
     }
 })
 
-router.post('/', (request, response) => {
-    const { name, street, city } = request.body;
-    try {
-        client.query('INSERT INTO sponsors(name, street, city, date_created) VALUES ($1, $2, $3, current_timestamp) RETURNING *',
-            [name, street, city],
-            (err, data) => {
-                if (err) return response.status(500).send(err);
-                response.send(data.rows[0]);
-            });
-    } catch (err) {
-        response.send(err);
-    }
-});
 
 router.put('/:id', (request, response) => {
     const { id } = request.params;
@@ -95,27 +124,14 @@ router.delete('/:id', (request, response) => {
     }
 });
 
-router.post('/activate', (request, response) => {
-    const { id, is_active } = request.body;
-    try {
-        client.query(`UPDATE sponsors SET is_active=$1 WHERE sponsor_id=$2`, [is_active, +id], (err, data) => {
-            if (err) return response.send(err);
-            if (data) {
-                response.send(data.rows)
-            }
-        });
 
-    } catch (err) {
-        response.send(err)
-    }
-});
-
-router.post('/add-contact', (request, response) => {
-    const { sponsor_id, name, email, phone, is_primary } = request.body;
+router.post('/:id/contacts', (request, response) => {
+    const { id: sponsor_id } = request.params;
+    const { name, email, phone, is_primary } = request.body;
 
     try {
-        client.query('INSERT INTO contacts(sponsor_id, name, email, phone, is_primary) VALUES ($1, $2, $3, $4, $5, $6)',
-            [sponsor_id, contact_id, name, email, phone, is_primary],
+        client.query('INSERT INTO contacts(sponsor_id, name, email, phone, is_primary) VALUES ($1, $2, $3, $4, $5)',
+            [sponsor_id, name, email, phone, is_primary],
             (err, data) => {
                 if (err) return response.send(err);
                 response.send('success');
