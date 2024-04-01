@@ -15,7 +15,6 @@ async function verify(idToken) {
         const userid = payload['sub'];
         // If request specified a G Suite domain:
         // const domain = payload['hd'];
-        console.log(userid);
 
         return userid;
     } catch (err) {
@@ -44,6 +43,7 @@ async function authMiddleware(req, res, next) {
         }
 
     } catch (err) {
+        console.log(err);
         return res.status(401).json({ message: 'Unauthorized' });
     }
 }
