@@ -18,14 +18,23 @@ router.get('/', (request, response) => {
 router.get('/:id', (request, response) => {
     const { id } = request.params;
     try {
-        client.query('SELECT * FROM sponsors LEFT JOIN contacts ON sponsors.sponsor_id = contacts.sponsor_id WHERE sponsors.sponsor_id = $1', [id], (err, data) => {
+        client.query('SELECT s.*, c.name AS contact_name, c.email, c.phone  FROM sponsors s LEFT JOIN contacts c ON s.sponsor_id = c.sponsor_id WHERE s.sponsor_id = $1', [id], (err, data) => {
             if (err) return response.send(err);
+
+            if (data.rows.length === 0) return response.status(404).send({});
             const res = {
-                id: data.rows[0].sponsor_id,
+                sponsor_id: data.rows[0].sponsor_id,
                 name: data.rows[0].name,
                 street: data.rows[0].street,
                 city: data.rows[0].city,
-                contacts: data.rows
+                contacts: data.rows.map(row => {
+                    return {
+                        name: row.contact_name,
+                        email: row.email,
+                        phone: row.phone,
+                        is_primary: row.is_primary
+                    }
+                })
             }
             response.send(res);
         })
