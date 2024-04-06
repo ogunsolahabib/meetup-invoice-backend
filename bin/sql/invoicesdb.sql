@@ -20,7 +20,9 @@ CREATE TABLE invoices (
     invoice_id SERIAL PRIMARY KEY,
     identifier uuid DEFAULT gen_random_uuid(),
     sponsor_id INT REFERENCES sponsors(sponsor_id),
-    invoice_date DATE NOT NULL,
+    subject VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    due_at DATE NOT NULL,
     total_amount DECIMAL(10, 2) NOT NULL
 );
 
@@ -30,5 +32,5 @@ INSERT INTO contacts (sponsor_id, name, email, phone) VALUES (1, 'John Doe', 'jo
 
 INSERT INTO contacts (sponsor_id, name, email, phone) VALUES (1, 'Mary James', 'mary@example.com', '111-222-3344');
 
-INSERT INTO invoices (sponsor_id, invoice_date, total_amount) VALUES (1, '2024-02-16', 79.98);
+INSERT INTO invoices (sponsor_id, subject, created_at, due_at, total_amount) VALUES (1, 'Invoice 1', '2024-02-16','2025-02-16', 79.98);
 
