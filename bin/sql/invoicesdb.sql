@@ -28,9 +28,9 @@ CREATE TABLE invoices (
 
 INSERT INTO sponsors (name, street, city, date_created) VALUES ('Sponsor A', '7 Etive AvenueBearsden', 'Glasgow', '2024-02-16');
 
-INSERT INTO contacts (sponsor_id, name, email, phone) VALUES (1, 'John Doe', 'john@example.com', '111-222-3333');
+INSERT INTO contacts (sponsor_id, name, email, phone) VALUES (1, 'John Doe', 'ogunsolahabib@yahoo.com', '111-222-3333');
 
-INSERT INTO contacts (sponsor_id, name, email, phone) VALUES (1, 'Mary James', 'mary@example.com', '111-222-3344');
+INSERT INTO contacts (sponsor_id, name, email, phone) VALUES (1, 'Mary James', 'ogunsolahabib@gmail.com', '111-222-3344');
 
 INSERT INTO invoices (sponsor_id, subject, created_at, due_at, total_amount) VALUES (1, 'Invoice 1', '2024-02-16','2025-02-16', 79.98);
 
