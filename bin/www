@@ -1,5 +1,5 @@
 #!/bin/usr/env node
-const app = require('../app');
+import app from "../app";
 
 const port = 4000;
 
