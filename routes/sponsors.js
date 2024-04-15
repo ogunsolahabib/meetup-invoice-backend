@@ -5,8 +5,22 @@ const getPutFields = require('../utils/getPutFields');
 const router = Router();
 
 router.get('/', (request, response) => {
+    const { includeContacts } = request.query;
     try {
-        client.query('SELECT * FROM sponsors', (err, data) => {
+        client.query(`SELECT
+                        s.sponsor_id as id,
+                        s.street,
+                        s.city,
+                        s.name,
+                        s.is_active,
+                        s.date_created
+                        ${includeContacts ? ", json_agg(json_build_object('name', c.name, 'email', c.email)) AS contacts" : ''} 
+                    FROM
+                        sponsors s
+                    ${includeContacts ? 'LEFT JOIN contacts c ON s.sponsor_id = c.sponsor_id' : ''}
+                    GROUP BY
+                        s.sponsor_id;
+      `, (err, data) => {
             if (err) return response.send(err);
             response.send(data.rows);
         });
