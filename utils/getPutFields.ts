@@ -1,4 +1,4 @@
-const getPutFields = (body) => {
+const getPutFields = (body: any) => {
 
     const fields = Object.keys(body).filter(Boolean);
 
@@ -11,4 +11,4 @@ const getPutFields = (body) => {
     return { fields, setClause, values }
 }
 
-module.exports = getPutFields;
+export default getPutFields;

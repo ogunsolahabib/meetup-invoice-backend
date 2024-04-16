@@ -1,6 +1,6 @@
-const { Router } = require('express');
-const client = require('../db');
-const getPutFields = require('../utils/getPutFields');
+import { Router } from 'express';
+import client from '../db';
+import getPutFields from '../utils/getPutFields';
 
 const router = Router();
 
@@ -43,7 +43,7 @@ router.post('/', (request, response) => {
     }
 });
 
-router.get('/contacts', (request, response) => {
+router.get('/contacts', (_, response) => {
     try {
         client.query('SELECT * FROM contacts', (err, data) => {
             if (err) return response.send(err);
@@ -156,4 +156,4 @@ router.post('/:id/contacts', (request, response) => {
 
 });
 
-module.exports = router;
+export default router;

@@ -1,18 +1,17 @@
-// authMiddleware.js
-const { OAuth2Client } = require('google-auth-library');
+import { OAuth2Client } from 'google-auth-library';
 
 const client = new OAuth2Client();
 
 
-async function verify(idToken) {
+async function verify(idToken: string) {
     try {
         // idToken = idToken.replace('x', 's'); // for testing
         const ticket = await client.verifyIdToken({
             idToken,
-            audience: process.env.GOOGLE_CLIENT_ID
+            audience: process.env['GOOGLE_CLIENT_ID']
         });
         const payload = ticket.getPayload();
-        const userid = payload['sub'];
+        const userid = payload ? payload['sub'] : null;
         // If request specified a G Suite domain:
         // const domain = payload['hd'];
 
@@ -34,7 +33,7 @@ async function authMiddleware(req, res, next) {
         }
         const idToken = token.split(' ')[1];
 
-        const userid = await verify(idToken, res);
+        const userid = await verify(idToken);
 
         if (userid) {
             return next();
@@ -48,4 +47,4 @@ async function authMiddleware(req, res, next) {
     }
 }
 
-module.exports = authMiddleware;
+export default authMiddleware;

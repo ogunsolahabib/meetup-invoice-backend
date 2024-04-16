@@ -1,6 +1,6 @@
-const { Router } = require('express');
-const client = require('../db');
-const getPutFields = require('../utils/getPutFields');
+import { Router } from 'express';
+import client from '../db';
+import getPutFields from '../utils/getPutFields';
 
 const router = Router();
 
@@ -56,4 +56,4 @@ router.put('/:id', (request, response) => {
 
 
 
-module.exports = router;
+export default router;
