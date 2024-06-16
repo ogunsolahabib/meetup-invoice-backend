@@ -14,8 +14,7 @@ app.use(express.json());
 
 app.use(routes);
 
-app.get('/', (_, res) => { res.send('success') })
-
+app.get('/', (_, res) => { res.send('success') });
 
 const port = 4000;
 

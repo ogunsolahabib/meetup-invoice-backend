@@ -1,26 +1,4 @@
-import { OAuth2Client } from 'google-auth-library';
-
-const client = new OAuth2Client();
-
-
-async function verify(idToken: string) {
-    try {
-        // idToken = idToken.replace('x', 's'); // for testing
-        const ticket = await client.verifyIdToken({
-            idToken,
-            audience: process.env['GOOGLE_CLIENT_ID']
-        });
-        const payload = ticket.getPayload();
-        const userid = payload ? payload['sub'] : null;
-        // If request specified a G Suite domain:
-        // const domain = payload['hd'];
-
-        return userid;
-    } catch (err) {
-        return Promise.reject(err);
-    }
-}
-
+import { verifyGoogleAuthToken } from "../utils/verifyGoogleAuthToken";
 
 
 async function authMiddleware(req, res, next) {
@@ -33,7 +11,7 @@ async function authMiddleware(req, res, next) {
         }
         const idToken = token.split(' ')[1];
 
-        const userid = await verify(idToken);
+        const userid = await verifyGoogleAuthToken(idToken);
 
         if (userid) {
             return next();
