@@ -28,7 +28,7 @@ export default async function moveFileToFolder(fileId, folderId) {
             fields: 'id',
         });
 
-        return files.status;
+        return files.data.id;
     } catch (err) {
         // TODO(developer) - Handle error
         // throw err;

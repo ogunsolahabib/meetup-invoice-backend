@@ -30,7 +30,9 @@ export default async function createInvoiceSheet() {
         const newFolder = await createFolder(fileName)
 
         // move duplicate into folder
-        await moveFileToFolder(duplicate, newFolder);
+        const movedFileId = await moveFileToFolder(duplicate, newFolder);
+
+        return movedFileId
 
 
     } catch (err) {
