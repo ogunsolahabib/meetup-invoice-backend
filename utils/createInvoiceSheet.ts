@@ -2,6 +2,7 @@ import createFolder from "./createFolder.ts";
 import drive from "./drive.ts";
 import duplicateBaseInvoiceFile from "./duplicateBaseInvoiceFile.ts";
 import moveFileToFolder from "./moveFileToFolder.ts";
+import updateInvoiceSheet from "./updateInvoiceSheet.ts";
 
 const testMonth = 'Dec';
 
@@ -12,7 +13,7 @@ const testName = 'DarkLiquid';
 
 export default async function createInvoiceSheet() {
 
-    const fileName = `${testYear}-${testMonth}-${testName}`
+    const fileName = `${testYear}-${testMonth}-${testName}-Invoice`
     try {
 
         // duplicate base file
@@ -24,7 +25,20 @@ export default async function createInvoiceSheet() {
             requestBody: {
                 name: fileName
             }
-        })
+        });
+
+        // update file content
+        await updateInvoiceSheet(duplicate, {
+            sponsorName: "DarkLiquid",
+            contactName: 'Jonathan James',
+            dateCreated: '06/04/2025',
+            addressLine1: 'Pentagon Centre',
+            addressLine2: 'Glasgow, G3 8AZ',
+            invoiceId: 'PO-0014452',
+            invoiceNumber: 9,
+            dueDate: '26/10/2025'
+        });
+
 
         // create foler with name month year
         const newFolder = await createFolder(fileName)

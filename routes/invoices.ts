@@ -26,17 +26,9 @@ router.get('/', (request, response) => {
 
 router.post('/', (request, response) => {
 
-    // create invoice
-
-    // duplicate base file
-
-    // rename duplicate file
+    // duplicate base invoice file
 
     // update duplicate content with new data
-
-    // create new folder
-
-    // add duplicate to new folder
 
     // convert file to pdf
 

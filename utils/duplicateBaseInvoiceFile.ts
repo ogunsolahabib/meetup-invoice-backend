@@ -2,13 +2,13 @@ import drive from "./drive.ts";
 
 const BASE_INVOICE_ID = process.env["GOOGLE_DRIVE_BASE_INVOICE_ID"];
 
-export default async function duplicateBaseInvoiceFile() {
+export default async function duplicateBaseInvoiceFile(): Promise<string> {
     const duplicate = await drive.files.copy({
         fileId: BASE_INVOICE_ID,
         fields: 'id',
     });
 
-    return duplicate.data.id;
+    return duplicate.data.id as string;
 
 }
 

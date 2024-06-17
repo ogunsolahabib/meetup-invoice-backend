@@ -31,7 +31,7 @@ export default async function moveFileToFolder(fileId, folderId) {
         return files.data.id;
     } catch (err) {
         // TODO(developer) - Handle error
-        // throw err;
-        console.log('move', err)
+        throw err;
+
     }
 }
