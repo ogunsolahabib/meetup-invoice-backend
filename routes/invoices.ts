@@ -25,6 +25,22 @@ router.get('/', (request, response) => {
 });
 
 router.post('/', (request, response) => {
+
+    // create invoice
+
+    // duplicate base file
+
+    // rename duplicate file
+
+    // update duplicate content with new data
+
+    // create new folder
+
+    // add duplicate to new folder
+
+    // convert file to pdf
+
+    // send pdf to emails
     const { sponsor_id, total_amount } = request.body;
 
     client.query(`INSERT INTO invoices(sponsor_id, subject, created_at, due_at, total_amount) VALUES ($1, $2, current_timestamp,now() + interval '2 week' $3) RETURNING *`,
