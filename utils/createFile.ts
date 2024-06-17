@@ -13,7 +13,7 @@ export default async function createFile(fileName: string, filePath: string, fol
         await drive.files.create({
             requestBody: {
                 name: fileName,
-                mimeType: 'application/json', // Adjust based on file type
+                mimeType: "application/vnd.google-apps.spreadsheet",
                 body: fs.createReadStream(filePath),
                 parents: [folderId]
             },
