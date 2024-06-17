@@ -33,11 +33,13 @@ router.post('/', (request, response) => {
     // convert file to pdf
 
     // send pdf to emails
+
+    // save invoice to db
     const { sponsor_id, total_amount } = request.body;
 
     client.query(`INSERT INTO invoices(sponsor_id, subject, created_at, due_at, total_amount) VALUES ($1, $2, current_timestamp,now() + interval '2 week' $3) RETURNING *`,
         [sponsor_id, 'Invoice', total_amount],
-        (err, res) => {
+        (err) => {
             if (err) return response.send(err);
             response.redirect('/invoices');
         });
