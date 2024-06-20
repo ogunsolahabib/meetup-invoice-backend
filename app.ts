@@ -3,7 +3,7 @@ import express from "express";
 import routes from "./routes";
 import cors from "cors";
 import authMiddleware from "./middlewares/authMiddleware";
-import createInvoiceSheet from "./utils/createInvoiceSheet.ts";
+import createInvoiceSheet from "./utils/createInvoiceSheet";
 
 const app = express();
 

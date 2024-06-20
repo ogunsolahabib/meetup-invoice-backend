@@ -12,7 +12,7 @@
       "noImplicitAny": false,
   
       // Bundler mode
-      "moduleResolution": "NodeNext",
+      "moduleResolution": "Bundler",
       "allowImportingTsExtensions": true,
     //   "verbatimModuleSyntax": true,
       "noEmit": true,
