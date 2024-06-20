@@ -19,7 +19,7 @@ app.get('/', (_, res) => { res.send('success') });
 
 const port = 4000;
 
-// createInvoiceSheet();
+createInvoiceSheet();
 
 app.listen(port, () => console.log("listening on port " + port));
 
