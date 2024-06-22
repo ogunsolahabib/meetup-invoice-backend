@@ -10,6 +10,7 @@ import exportSheetToPDF from '../utils/exportSheetToPdf';
 import path from 'path'
 import sendEmail from '../utils/sendEmail';
 import { SHEET_PDF_PATH } from '../utils/constants';
+import getFileName from '../utils/getFileName';
 
 
 const router = Router();
@@ -21,6 +22,7 @@ router.get('/', (_, response) => {
                 id: row.invoice_id,
                 subject: row.subject,
                 created_at: row.created_at,
+                start_date: row.start_date,
                 due_at: row.due_at,
                 total_amount: row.total_amount,
                 sponsor: {
@@ -36,10 +38,10 @@ router.get('/', (_, response) => {
 
 // save invoice to db
 router.post('/', (request, response) => {
-    const { sponsor_id, total_amount } = request.body;
+    const { sponsor_id, total_amount, start_date, due_at, subject } = request.body;
 
-    client.query(`INSERT INTO invoices(sponsor_id, subject, created_at, due_at, total_amount) VALUES ($1, $2, current_timestamp,now() + interval '2 week' $3) RETURNING *`,
-        [sponsor_id, 'Invoice', total_amount],
+    client.query(`INSERT INTO invoices(sponsor_id, subject, created_at, start_date, due_at, total_amount) VALUES ($1, $2, current_timestamp, $3, $4, $5) RETURNING *`,
+        [sponsor_id, subject, start_date, due_at, total_amount],
         (err) => {
             if (err) return response.send(err);
             response.redirect('/invoices');
@@ -59,14 +61,14 @@ router.post('/create-sheet', async () => {
 
 
 // - rename file
-router.post('/rename-sheet/:fileId', async (request) => {
+router.post('/rename-sheet', async (request) => {
     try {
-        const { fileId } = request.params;
-        const { fileName } = request.body;
+        const { fileId, start_date, sponsorName } = request.body;
+
         await drive.files.update({
             fileId,
             requestBody: {
-                name: fileName
+                name: getFileName(sponsorName, start_date)
             }
         });
 
@@ -77,10 +79,10 @@ router.post('/rename-sheet/:fileId', async (request) => {
 })
 
 // fill invoice data
-router.post('/fill-sheet/:fileId', async (request) => {
+router.post('/fill-sheet', async (request) => {
     try {
-        const { fileId } = request.params;
-        const { sponsorName,
+
+        const { fileId, sponsorName,
             contactName,
             dateCreated,
             addressLine1,
@@ -123,10 +125,9 @@ router.post('/create-folder/', async (request) => {
 });
 
 // move file to folder
-router.post('/file-to-folder/:fileId', async (request) => {
+router.post('/move-file/', async (request) => {
     try {
-        const { fileId } = request.params;
-        const { folderId } = request.body;
+        const { fileId, folderId } = request.body;
         const movedFileId = await moveFileToFolder(fileId, folderId) as string;
 
         return movedFileId;
@@ -138,9 +139,9 @@ router.post('/file-to-folder/:fileId', async (request) => {
 
 
 // - Convert invoice to pdf
-router.post('/sheet-to-pdf/:fileId', async (request) => {
+router.post('/sheet-to-pdf', async (request) => {
     try {
-        const { fileId } = request.params;
+        const { fileId } = request.body;
         await exportSheetToPDF(fileId);
 
     } catch (err) {
