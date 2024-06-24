@@ -4,7 +4,7 @@ import sheets from "./sheets.ts";
 type sheetDataOptions = {
     dateCreated: string,
     contactName: string,
-    sponsorName: string,
+    sponsor_name: string,
     addressLine1: string,
     addressLine2: string,
     dueDate: string,
@@ -13,7 +13,7 @@ type sheetDataOptions = {
 }
 export default async function updateInvoiceSheet(spreadsheetId: string, options: sheetDataOptions) {
 
-    const { dateCreated, contactName, sponsorName, addressLine1, addressLine2, dueDate, invoiceId, invoiceNumber } = options
+    const { dateCreated, contactName, sponsor_name, addressLine1, addressLine2, dueDate, invoiceId, invoiceNumber } = options
     let values = [
         // first column
         [
@@ -22,7 +22,7 @@ export default async function updateInvoiceSheet(spreadsheetId: string, options:
             null,
             null,
             contactName,
-            sponsorName,
+            sponsor_name,
             addressLine1,
             addressLine2,
             null,

@@ -21,11 +21,11 @@ router.get('/', (request, response) => {
                     GROUP BY
                         s.sponsor_id;
       `, (err, data) => {
-            if (err) return response.send(err);
-            response.send(data.rows);
+            if (err) return response.status(500).send({ data: [], error: err });
+            response.send({ data: data.rows });
         });
     } catch (err) {
-        response.send(err);
+        response.status(500).send({ data: [], error: err });
     }
 });
 
