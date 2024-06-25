@@ -14,7 +14,7 @@ router.get('/', (request, response) => {
                         s.name,
                         s.is_active,
                         s.date_created
-                        ${includeContacts ? ", json_agg(json_build_object('name', c.name, 'email', c.email)) AS contacts" : ''} 
+                        ${includeContacts ? ", json_agg(json_build_object('name', c.name, 'email', c.email, 'is_primary', c.is_primary)) AS contacts" : ''} 
                     FROM
                         sponsors s
                     ${includeContacts ? 'LEFT JOIN contacts c ON s.sponsor_id = c.sponsor_id' : ''}
