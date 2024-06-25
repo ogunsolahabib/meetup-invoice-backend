@@ -9,11 +9,12 @@ type sheetDataOptions = {
     addressLine2: string,
     dueDate: string,
     invoiceId: string,
-    invoiceNumber: number
+    invoiceNumber: number,
+    amount: number
 }
 export default async function updateInvoiceSheet(spreadsheetId: string, options: sheetDataOptions) {
 
-    const { dateCreated, contactName, sponsor_name, addressLine1, addressLine2, dueDate, invoiceId, invoiceNumber } = options
+    const { dateCreated, contactName, sponsor_name, addressLine1, addressLine2, dueDate, invoiceId, invoiceNumber, amount } = options
     let values = [
         // first column
         [
@@ -29,7 +30,7 @@ export default async function updateInvoiceSheet(spreadsheetId: string, options:
             invoiceId
         ],
         [], [], [],
-        [null, null, null, invoiceNumber, null, null, dueDate, null, null, null, null, null, 200]
+        [null, null, null, invoiceNumber, null, null, dueDate, null, null, null, null, null, amount]
 
     ];
     const resource = {

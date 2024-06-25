@@ -18,7 +18,7 @@ export default async function moveFileToFolder(fileId, folderId) {
         });
 
         // Move the file to the new folder
-        const previousParents = file.data.parents
+        const previousParents = await file.data.parents
             ?.join(',');
 
         const files = await drive.files.update({
@@ -27,7 +27,7 @@ export default async function moveFileToFolder(fileId, folderId) {
             removeParents: previousParents,
             fields: 'id',
         });
-
+        console.log('file moved', files.data.id)
         return files.data.id;
     } catch (err) {
         // TODO(developer) - Handle error
