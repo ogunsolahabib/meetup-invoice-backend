@@ -23,15 +23,16 @@ CREATE TABLE invoices (
     subject VARCHAR(255) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     start_date DATE NOT NULL,
-    due_at DATE NOT NULL,
-    total_amount DECIMAL(10, 2) NOT NULL
+    due_date DATE NOT NULL,
+    total_amount DECIMAL(10, 2) NOT NULL,
+    file_id VARCHAR(255)
 );
 
 INSERT INTO sponsors (name, street, city, date_created) VALUES ('Sponsor A', '7 Etive AvenueBearsden', 'Glasgow', '2024-02-16');
 
-INSERT INTO contacts (sponsor_id, name, email, phone) VALUES (1, 'John Doe', 'ogunsolahabib@yahoo.com', '111-222-3333');
+INSERT INTO contacts (sponsor_id, name, email, phone, is_primary) VALUES (1, 'John Doe', 'ogunsolahabib@yahoo.com', '111-222-3333', true);
 
 INSERT INTO contacts (sponsor_id, name, email, phone) VALUES (1, 'Mary James', 'ogunsolahabib@gmail.com', '111-222-3344');
 
-INSERT INTO invoices (sponsor_id, subject, created_at, start_date, due_at, total_amount) VALUES (1, 'Invoice 1', '2024-02-16','2024-02-28','2025-02-16', 79.98);
+INSERT INTO invoices (sponsor_id, subject, created_at, start_date, due_date, total_amount) VALUES (1, 'Invoice 1', '2024-02-16','2024-02-28','2025-02-16', 79.98);
 
