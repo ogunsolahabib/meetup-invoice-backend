@@ -25,6 +25,8 @@ CREATE TABLE invoices (
     start_date DATE NOT NULL,
     due_date DATE NOT NULL,
     total_amount DECIMAL(10, 2) NOT NULL,
+    is_paid BOOLEAN DEFAULT false,
+    created_by VARCHAR(255) NOT NULL,
     file_id VARCHAR(255)
 );
 
@@ -34,5 +36,5 @@ INSERT INTO contacts (sponsor_id, name, email, phone, is_primary) VALUES (1, 'Jo
 
 INSERT INTO contacts (sponsor_id, name, email, phone) VALUES (1, 'Mary James', 'ogunsolahabib@gmail.com', '111-222-3344');
 
-INSERT INTO invoices (sponsor_id, subject, created_at, start_date, due_date, total_amount) VALUES (1, 'Invoice 1', '2024-02-16','2024-02-28','2025-02-16', 79.98);
+INSERT INTO invoices (sponsor_id, subject, created_at, start_date, due_date, created_by, total_amount) VALUES (1, 'Invoice 1', '2024-02-16','2024-02-28','2025-02-16', 'ogunsolahabib@gmail.com', 79.98);
 
