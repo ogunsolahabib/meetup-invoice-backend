@@ -2,7 +2,6 @@ import { verifyGoogleAuthToken } from "../utils/verifyGoogleAuthToken";
 
 
 async function authMiddleware(req, res, next) {
-
     const token = req.headers['authorization'];
 
     try {
@@ -20,7 +19,6 @@ async function authMiddleware(req, res, next) {
         }
 
     } catch (err) {
-        console.log(err);
         return res.status(401).json({ message: 'Unauthorized' });
     }
 }

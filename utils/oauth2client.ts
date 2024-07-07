@@ -1,12 +1,12 @@
 import { google } from "googleapis";
-import { GOOGLE_DRIVE_CLIENT_ID, GOOGLE_DRIVE_CLIENT_SECRET, GOOGLE_DRIVE_REDIRECT_URI, GOOGLE_DRIVE_REFRESH_TOKEN } from "./constants.ts";
+import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI, GOOGLE_DRIVE_REFRESH_TOKEN } from "./constants.ts";
 
 
 
 const oauth2client = new google.auth.OAuth2(
-    GOOGLE_DRIVE_CLIENT_ID,
-    GOOGLE_DRIVE_CLIENT_SECRET,
-    GOOGLE_DRIVE_REDIRECT_URI
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    GOOGLE_REDIRECT_URI
 );
 
 oauth2client.setCredentials({ refresh_token: GOOGLE_DRIVE_REFRESH_TOKEN });
