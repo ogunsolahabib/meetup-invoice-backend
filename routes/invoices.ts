@@ -9,7 +9,6 @@ import moveFileToFolder from '../utils/moveFileToFolder';
 import exportSheetToPDF from '../utils/exportSheetToPdf';
 import path from 'path'
 import sendEmail from '../utils/sendEmail';
-import { SHEET_PDF_PATH } from '../utils/constants';
 import getFileName from '../utils/getFileName';
 import formatDate from '../utils/formatDate';
 import getMonthName from '../utils/getMonthName';
@@ -82,11 +81,13 @@ router.post('/rename-sheet', async (request, response) => {
 router.post('/fill-sheet', async (request, response) => {
     try {
 
-        const { fileId, sponsor_name,
+        const { fileId,
+            sponsor_name,
             contactName,
             addressLine1,
             addressLine2,
-            dueDate, amount } = request.body;
+            dueDate,
+            amount } = request.body;
 
         const serverDate = await client.query("SELECT CURRENT_DATE");
 
@@ -101,7 +102,7 @@ router.post('/fill-sheet', async (request, response) => {
             dateCreated: formatDate(serverDate.rows[0].current_date),
             addressLine1,
             addressLine2,
-            invoiceId: `PO-${invoicesCount + 1}`,
+            invoiceId: (sponsor_name === 'Bright Solid' ? ' PO-001339-' : '') + `${+invoicesCount + 1}`,
             invoiceNumber: +invoicesCount + 1,
             dueDate, amount
         });
@@ -209,6 +210,7 @@ router.post('/send-email', async (request, response) => {
 
         } catch (err) {
             console.log(err);
+            response.status(500).send(err);
         }
 
 
