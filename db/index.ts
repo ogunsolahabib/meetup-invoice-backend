@@ -34,7 +34,7 @@ const dbConfig = {
     port,
     database,
     ssl: {
-        // rejectUnauthorized: true,
+        rejectUnauthorized: true,
         ca: `-----BEGIN CERTIFICATE-----
 MIIEQTCCAqmgAwIBAgIUFzjZTSB6sIP4vIoeAnCiTGAKUg4wDQYJKoZIhvcNAQEM
 BQAwOjE4MDYGA1UEAwwvMjRlZDc3YzUtMWQzYS00ZDEwLWJlNGUtNzczOGM2NGNm
