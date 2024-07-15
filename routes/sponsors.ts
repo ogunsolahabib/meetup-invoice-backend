@@ -87,7 +87,7 @@ router.get('/:id', (request, response) => {
 
 
                 const res = data.rowCount === 0 ? {} : {
-                    sponsor_id: data.rows[0].sponsor_id,
+                    id: data.rows[0].sponsor_id,
                     name: data.rows[0].name,
                     street: data.rows[0].street,
                     city: data.rows[0].city,

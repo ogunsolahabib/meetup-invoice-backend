@@ -38,3 +38,4 @@ INSERT INTO contacts (sponsor_id, name, email, phone) VALUES (1, 'Mary James', '
 
 INSERT INTO invoices (sponsor_id, subject, created_at, start_date, due_date, created_by, total_amount) VALUES (1, 'Invoice 1', '2024-02-16','2024-02-28','2025-02-16', 'ogunsolahabib@gmail.com', 79.98);
 
+846078
