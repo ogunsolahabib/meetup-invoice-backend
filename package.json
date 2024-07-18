@@ -8,8 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "bun ./app",
     "dev": " bun --hot app.ts",
-    "configure": "./bin/configuredb.sh",
-    "build": "bun run configure && bun build"
+    "configure": "./bin/configuredb.sh"
   },
   "keywords": [],
   "author": "",
