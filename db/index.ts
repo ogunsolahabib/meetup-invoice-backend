@@ -11,7 +11,7 @@ const database = process.env["DB_NAME"];
 const host = process.env["DB_HOST"];
 const user = process.env["DB_USER"];
 const password = process.env["DB_PASSWORD"];
-const port = process.env["PORT"];
+const port = +process.env["PORT"]!;
 
 const dbUrl = `postgresql://${user}:${password}@${host}:${port}/${database}${host === "localhost" ? "" : '?sslmode=verify-full'}`
 
@@ -65,18 +65,22 @@ XMS+L3SnIIjxWg3b9ckwGT8ThQj8XejAHYOOcX2JghPFcVFrxQ==
 
 const dbClient = new Client(dbConfig);
 dbClient.connect(function (err) {
-    if (err)
-        throw err;
-    client.query("SELECT VERSION()", [], function (err, result) {
+    try {
         if (err)
             throw err;
-
-        console.log(result.rows[0].version);
-        client.end(function (err) {
+        client.query("SELECT VERSION()", [], function (err, result) {
             if (err)
                 throw err;
+
+            console.log(result.rows[0].version);
+            client.end(function (err) {
+                if (err)
+                    throw err;
+            });
         });
-    });
+    } catch (err) {
+        console.log(err);
+    }
 });
 
 
