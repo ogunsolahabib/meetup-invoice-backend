@@ -1,6 +1,7 @@
 
 import { config } from 'dotenv';
-import { Client } from "pg";
+import { Client, Pool } from "pg";
+import fs from 'fs';
 
 config();
 
@@ -63,21 +64,27 @@ XMS+L3SnIIjxWg3b9ckwGT8ThQj8XejAHYOOcX2JghPFcVFrxQ==
     },
 };
 
+
+const pool = new Pool({
+    user: dbConfig.user,
+    host: dbConfig.host,
+    database: dbConfig.database,
+    password: dbConfig.password,
+    port: dbConfig.port
+});
+
+
+
 const dbClient = new Client(dbConfig);
 dbClient.connect(function (err) {
     try {
         if (err)
             throw err;
-        client.query("SELECT VERSION()", [], function (err, result) {
-            if (err)
-                throw err;
+        const sql = fs.readFileSync('../bin/sql/invoicesdb.sql', 'utf8');
+        pool.query(sql, (err, res) => {
+            if (err) console.log(err);
+        })
 
-            console.log(result.rows[0].version);
-            client.end(function (err) {
-                if (err)
-                    throw err;
-            });
-        });
     } catch (err) {
         console.log(err);
     }
