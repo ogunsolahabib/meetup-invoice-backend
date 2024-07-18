@@ -9,7 +9,7 @@
     "start": "bun ./app",
     "dev": " bun --hot app.ts",
     "configure": "./bin/configuredb.sh",
-    "build": "tsc"
+    "build": "bun build"
   },
   "keywords": [],
   "author": "",
